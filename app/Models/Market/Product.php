@@ -49,7 +49,7 @@ class Product extends Model
 
     public function colors()
     {
-        return $this->hasMany(ProductColor::class);
+        return $this->belongsTo(ProductColor::class);
     }
 
     public function images()
@@ -65,7 +65,7 @@ class Product extends Model
 
     public function guarantees()
     {
-        return $this->hasMany(Guarantee::class);
+        return $this->belongsTo(Guarantee::class);
     }
 
     public function amazingSales()

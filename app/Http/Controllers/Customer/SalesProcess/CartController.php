@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Customer\SalesProcess;
 
+use App\Models\Market\Guarantee;
 use Illuminate\Http\Request;
 use App\Models\Market\Product;
 use App\Models\Market\CartItem;
 use App\Http\Controllers\Controller;
 use App\Models\Market\Delivery;
+use App\Models\Market\ProductColor;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -50,16 +52,13 @@ class CartController extends Controller
 
     public function addToCart(Product $product, Request $request)
     {
+        
         if (Auth::check()) {
-            $request->validate([
-                'color' => 'nullable|exists:product_colors,id',
-                'guarantee' => 'nullable|exists:guarantees,id',
-                'number' => 'required|numeric|min:1|max:5',
-            ]);
 
             $cartItems = CartItem::where('product_id', $product->id)
                 ->where('user_id', Auth::user()->id)
                 ->get();
+                
                 if (!$request->has('color')) {
                     $request->merge(['color' => null]);
                 }
@@ -76,15 +75,15 @@ class CartController extends Controller
                     return back();
                 }
             }
-
+            
             $inputs = [
-                'color_id' => $request->color,
-                'guarantee_id' => $request->guarantee,
+                'color_id' => ProductColor::where("product_id",'=',$product->id)->first()->id,
+                'guarantee_id' => Guarantee::where("product_id",'=',$product->id)->first()->id,
                 'user_id' => Auth::user()->id,
                 'product_id' => $product->id,
-                'number' => $request->number, // Ensure the 'number' field is set
+                'number' => 1, // Ensure the 'number' field is set
             ];
-
+            
             CartItem::create($inputs);
 
             return back()->with('alert-section-success', 'محصول مورد نظر با موفقیت به سبد خرید اضافه شد');

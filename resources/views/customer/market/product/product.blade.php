@@ -419,8 +419,8 @@
                     <p class="mb-3 mt-5">
                         <i class="fa fa-info-circle me-1"></i>کاربر گرامی  خرید شما هنوز نهایی نشده است. برای ثبت سفارش و تکمیل خرید باید ابتدا آدرس خود را انتخاب کنید و سپس نحوه ارسال را انتخاب کنید. نحوه ارسال انتخابی شما محاسبه و به این مبلغ اضافه شده خواهد شد. و در نهایت پرداخت این سفارش صورت میگیرد. پس از ثبت سفارش کالا بر اساس نحوه ارسال که شما انتخاب کرده اید کالا برای شما در مدت زمان مذکور ارسال می گردد.
                     </p>
-
                     {{-- دکمه افزودن به سبد خرید --}}
+                    <form action="{{route('customer.sales-process.add-to-cart',$product->slug)}}" method="post"></form>
                     <button type="submit" class="btn-add-to-cart">
                         <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
                     </button>
@@ -496,9 +496,10 @@
                                                             نفر در حال بازدید این کالا می‌باشند.
                                                         </div>
                                                     </div>
-                                                    <a href="{{route('customer.sales-process.cart')}}" class="btn-add-to-cart">
-                                                        <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
-                                                    </a>
+                                                    <form method="post" action="{{route('customer.sales-process.add-to-cart',$product)}}" class="btn-add-to-cart" >
+                                                        @csrf
+                                                        <button class="btn-add-to-cart-txt" type="submit">افزودن به سبد خرید</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
